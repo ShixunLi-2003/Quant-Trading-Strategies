@@ -1,2 +1,0 @@
-# MultiFactor-Scoring-Alpha
-
