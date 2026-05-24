@@ -1,215 +1,307 @@
 # A-Share Cross-Factor Alpha Research & Live Execution System
 
-## 1. Project Overview
+## Project Overview
 
-This project is an A-share multi-factor equity strategy framework covering factor research, portfolio construction, backtesting, attribution analysis, and signal forwarding for live execution.
+This project is an A-share multi-factor equity strategy research system that combines factor design, stock selection, portfolio construction, JoinQuant backtesting, attribution analysis, stability validation, and live-execution signal forwarding.
 
-The strategy combines technical factors, fundamental factors, industry regime checks, style-aware portfolio construction, and layered risk controls. It is designed as a full research workflow rather than a single backtest script.
+The strategy blends technical, fundamental, and industry-overlay information into a medium-frequency stock-selection framework with explicit risk-control and execution-awareness layers.
 
-The repository includes:
+The repository is organized to preserve the full research workflow rather than only the final backtest script.
 
-- the original end-to-end strategy implementation
-- a modularized codebase for cleaner structure review
-- single-factor research notebooks
-- raw backtest exports across multiple market regimes
-- attribution and risk analysis outputs
-- summary result images
+## Interview Snapshot
 
-## 2. Strategy Framework
+### Key Results
 
-The strategy is built around the following components:
+- `2011-2026`: annualized return `35.36%`, Sharpe `1.586`, max drawdown `14.54%`
+- `2018` bear market window: strategy `9.26%` versus benchmark `-25.31%`
+- `2022-2024` sideways/down window: strategy `16.14%` versus benchmark `-21.77%`
+- return profile is steadier and more defensive than the higher-elasticity A-share trading strategy in this repository
 
-- Technical factors: price momentum, volatility, volume ratio, RSI, breakout strength
-- Fundamental factors: rolling PE, expected growth, net profit growth, gross margin, debt ratio, market capitalization
-- Industry and style overlays: industry boom checks, sector preference scoring, region bonus logic, style exposure analysis
-- Risk controls: position-level stop-loss and take-profit rules, portfolio drawdown control, rise filters, profit deterioration filters
-- Portfolio execution: scheduled rebalancing, position constraints, signal forwarding, trading statistics, and slippage sensitivity analysis
+### Why It's Credible
 
-In essence, the strategy is a medium-frequency active stock selection model that integrates stock picking, portfolio control, and execution-aware research review.
+- combines technical, fundamental, and overlay blocks instead of relying on one tuned signal
+- preserves multi-window results, raw holdings, trade execution details, attribution outputs, and stability tests
+- uses a time-varying benchmark constituent universe rather than a hindsight-fixed stock list
+- includes explicit sensitivity work around cost, rebalance cadence, stock count, and universe choice
 
-## 3. Repository Structure
+### Main Risks
+
+- still depends on JoinQuant APIs and platform behavior
+- anti-lookahead controls should be rerun and summarized more explicitly
+- overlay logic is economically intuitive, but can still benefit from cleaner ablation evidence
+
+## Strategy Architecture
+
+The strategy is built around five main layers:
+
+### 1. Technical factor block
+
+The technical block evaluates signals such as:
+
+- price momentum
+- realized volatility
+- volume ratio
+- RSI
+- breakout strength
+
+These factors are intended to capture trend persistence, participation intensity, and short-term price structure quality.
+
+### 2. Fundamental factor block
+
+The fundamental block evaluates signals such as:
+
+- rolling or TTM PE
+- expected growth
+- net profit growth
+- gross margin quality
+- debt ratio
+- market capitalization
+
+These factors are intended to balance valuation, growth, balance-sheet quality, and business strength.
+
+### 3. Industry and region overlay
+
+The strategy includes an overlay layer that:
+
+- scores preferred industry groups
+- avoids weak or structurally unattractive industry groups
+- applies regime-aware sector preference adjustments
+- adds limited region-based bonus logic
+- performs industry boom checks via index or futures proxies
+
+This layer is not the core signal source, but it helps shape the final portfolio profile.
+
+### 4. Portfolio construction and regime adjustment
+
+The strategy dynamically adjusts:
+
+- benchmark-regime interpretation
+- technical versus fundamental weighting
+- rebalance frequency
+- target holding count
+- position sizing and rebalance thresholds
+
+This makes the system more adaptive than a static weighted ranker.
+
+### 5. Risk control and execution
+
+The risk layer includes:
+
+- tiered stop-loss logic
+- tiered take-profit logic
+- portfolio drawdown reduction logic
+- rise filters and profit-deterioration filters
+- execution-aware target-order generation
+- QMT signal forwarding in the integrated workflow
+
+## Repository Structure
 
 ```text
 1.A-Share Cross-Factor Alpha Research & Live Execution System/
-├─ Code/
-│  ├─ Complete_code.py
-│  └─ modular_alpha/
-├─ Factor_Analysis/
-├─ Backtest-Raw-Results/
-├─ Attribution analysis/
-├─ Result_Images/
-└─ README.md
+|- Code/
+|- Factor_Analysis/
+|- Backtest-Raw-Results/
+|- Attribution analysis/
+|- Result_Images/
+|- Stability/
+|- REPRODUCIBILITY.md
+`- README.md
 ```
 
-### `Code/`
+### `Code`
 
-Core strategy implementation.
+The implementation layer.
 
-- `Complete_code.py`: original monolithic strategy script containing initialization, factor calculation, rebalancing, risk management, and QMT signal forwarding
-- `modular_alpha/`: modularized version of the same strategy logic, split into configuration, factor libraries, filters, portfolio construction, risk controls, and execution bridge modules
+- `Complete_code.py`
+  The canonical JoinQuant-style monolithic implementation for reproduction and testing.
+- `modular_alpha/`
+  A refactored version of the strategy logic organized into configuration, factor, filter, overlay, portfolio, and risk-control modules.
 
-### `Factor_Analysis/`
+### `Factor_Analysis`
 
-Single-factor research and diagnostic notebooks, including:
+The signal research layer, containing single-factor and diagnostic notebooks used to inspect the behavior of technical and fundamental features before final aggregation.
 
-- Price Momentum
-- Volatility
-- Volume Ratio
-- RSI
-- Breakout
-- Rolling PE
-- Gross Margin
-- Debt Ratio
-- Market Cap
-- Factor Correlation Diagnostic
+### `Backtest-Raw-Results`
 
-This directory shows that the final strategy was not constructed as a pure factor stack without intermediate inspection.
+The archived raw export layer, containing:
 
-### `Backtest-Raw-Results/`
+- performance summary tables
+- daily holdings and exposure data
+- trade execution detail exports
+- multi-period backtest windows
 
-Raw backtest exports across multiple market environments.
+### `Attribution analysis`
 
-Current backtest windows include:
+The audit layer for:
 
-- `2011-2026`
-- `2014-2015`
-- `2018`
-- `2022-2024`
-- `2024-2026`
+- return decomposition
+- style exposure
+- industry exposure
+- Brinson-style attribution
+- drawdown analysis
+- trading diagnostics
+- slippage impact visualization
 
-Each subdirectory typically contains:
+### `Result_Images`
 
-- `daily_holdings_and_exposure.csv`: daily holdings and exposure records
-- `trade_execution_details.csv`: trade-level execution records
-- `strategy_summary_metrics.csv`: backtest metric summaries
+The presentation layer for quick visual inspection of headline backtest outcomes across major periods.
 
-The top level also includes:
+### `Stability`
 
-- `Performance_Summary.csv`: cross-period summary table of key performance metrics
+The robustness-validation layer.
 
-### `Attribution analysis/`
+This directory now stores a structured archive of parameter and stress-test runs. Each subfolder follows a standardized naming convention and contains:
 
-Performance attribution and risk review outputs, including cumulative return, annual and monthly return structure, style exposure, sector allocation, Brinson decomposition, drawdown analysis, trading statistics, and slippage sensitivity analysis.
+- `benefits_overview.png`
+- `daily_holdings_and_exposure.csv`
+- `daily_performance_comparison.csv`
+- `trade_execution_details.csv`
 
-This directory also includes a dedicated summary document:
+## Backtest Profile
 
-- `README.md`
+## Final Performance Summary
 
-### `Result_Images/`
+The archived final backtest summary from `Backtest-Raw-Results/Performance_Summary.csv` is shown below.
 
-High-level result snapshots for different backtest windows.
-
-## 4. Backtest Summary
-
-According to `Backtest-Raw-Results/Performance_Summary.csv`, the main backtest results are:
-
-| Backtest Period | Annualized Return | Benchmark Return | Alpha | Beta | Sharpe | Sortino | Information Ratio | Max Drawdown | Profit/Loss Ratio | Win Rate | Volatility |
+| Backtest Period | Strategy Annualized Return | Benchmark Return (CSI 300) | Alpha | Beta | Sharpe Ratio | Sortino Ratio | Information Ratio | Max Drawdown | Profit/Loss Ratio | Winning Rate | Strategy Volatility |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 2011-2026 | 35.36% | 50.90% | 0.319 | 0.488 | 1.586 | 2.547 | 1.622 | 14.54% | 2.092 | 0.477 | 0.198 |
-| 2014-2015 | 66.85% | 60.13% | 0.524 | 0.451 | 2.540 | 3.951 | 1.492 | 12.57% | 2.580 | 0.486 | 0.247 |
-| 2018 | 9.26% | -25.31% | 0.167 | 0.384 | 0.323 | 0.440 | 1.830 | 14.26% | 1.404 | 0.460 | 0.162 |
-| 2022-2024 | 16.14% | -21.77% | 0.197 | 0.500 | 0.703 | 1.240 | 1.574 | 13.54% | 1.571 | 0.442 | 0.173 |
-| 2024-2026 | 24.43% | 39.00% | 0.139 | 0.549 | 1.091 | 1.687 | 0.478 | 11.23% | 1.769 | 0.464 | 0.187 |
+| 2011-2026 (Long Term) | 35.36% | 50.90% | 0.319 | 0.488 | 1.586 | 2.547 | 1.622 | 14.54% | 2.092 | 0.477 | 0.198 |
+| 2014-2015 (Bull/Volatile) | 66.85% | 60.13% | 0.524 | 0.451 | 2.540 | 3.951 | 1.492 | 12.57% | 2.580 | 0.486 | 0.247 |
+| 2018 (Bear Market) | 9.26% | -25.31% | 0.167 | 0.384 | 0.323 | 0.440 | 1.830 | 14.26% | 1.404 | 0.460 | 0.162 |
+| 2022-2024 (Sideways/Down) | 16.14% | -21.77% | 0.197 | 0.500 | 0.703 | 1.240 | 1.574 | 13.54% | 1.571 | 0.442 | 0.173 |
+| 2024-2026 (Recent) | 24.43% | 39.00% | 0.139 | 0.549 | 1.091 | 1.687 | 0.478 | 11.23% | 1.769 | 0.464 | 0.187 |
 
-These results indicate:
+## Key Takeaways
 
-- strong long-horizon absolute return generation
-- meaningful resilience during weak-market periods such as `2018` and `2022-2024`
-- relatively low beta compared with broad market exposure
-- acceptable Sharpe, Sortino, Information Ratio, and drawdown characteristics
+- The strategy shows its strongest overall profile in long-horizon and mixed-regime settings rather than in one isolated market phase.
+- Defensive behavior is a meaningful part of the edge: the strategy stays positive in weak periods such as `2018` and `2022-2024`, while benchmark performance is materially negative.
+- Drawdown control is relatively disciplined for a concentrated active A-share stock-selection framework, with max drawdown staying in a comparatively moderate range across archived windows.
+- The main practical risk is not obvious regime collapse, but sensitivity to implementation details such as rebalance cadence, cost assumptions, and concentration settings.
 
-The reported results are strong. For that reason, the burden of robustness, reproducibility, and overfitting control is correspondingly higher.
+According to the archived long-horizon and regime-sliced results, the strategy shows:
 
-## 5. Current Strengths
+- strong long-term absolute return generation
+- meaningful resilience in weak-market environments
+- moderate beta versus the broad market
+- acceptable drawdown control relative to return
+- nontrivial dependence on implementation details such as rebalance cadence and cost assumptions
 
-From a research repository perspective, the current project already has several strengths:
+The full-period and regime-sliced results suggest that the strategy is not just a single-regime winner. It retains positive absolute return in weak-market environments, while also keeping drawdowns relatively contained compared with many concentrated A-share stock-selection systems.
 
-- It is more than a single backtest script and already includes research, strategy logic, backtest exports, attribution, and result presentation.
-- It preserves multiple market-regime slices instead of only showing one favorable sample window.
-- It includes single-factor notebooks, which helps demonstrate intermediate research work behind the final strategy.
-- It retains trade-level records, daily holdings, and attribution charts, which improves auditability.
-- It includes a modularized version of the strategy, showing awareness of code organization beyond a monolithic research script.
-- It covers slippage sensitivity, sector exposure, style exposure, Brinson attribution, and trading diagnostics.
+That last point is exactly why the `Stability` directory matters.
 
-## 6. Current Limitations
+## Stability and Robustness Coverage
 
-### 6.1 Reproducibility Is Not Yet Fully Documented
+The current `Stability` directory already includes a meaningful first-generation robustness suite.
 
-This is one of the most important limitations of the current repository.
+The archived tests cover areas such as:
 
-The entire project relies heavily on the JoinQuant / jqdata environment, but it does not yet include a complete environment specification, dependency description, reproducibility path, or data interface documentation. Top-tier firms care a great deal about reproducibility.
+- benchmark regime-window sensitivity
+- rebalance-frequency sensitivity
+- stock-count sensitivity
+- maximum-position sensitivity
+- slippage stress
+- commission stress
+- universe substitution
+- portfolio drawdown reduction sensitivity
 
-More specifically, the repository still lacks:
+Representative folder names now include:
 
-- a complete Python dependency specification
-- a clear explanation of JoinQuant / jqdata runtime requirements
-- a definition of the data fields and data-source assumptions
-- step-by-step backtest execution instructions
-- a documented path from factor research to final strategy backtest
-- a clear explanation of the differences between local execution and platform execution
+- `benchmark_regime_window_20_to_15_2011_2026`
+- `benchmark_regime_window_20_to_30_2011_2026`
+- `rebalance_schedule_10_10_15_to_5_10_20_2011_2026`
+- `rebalance_schedule_10_10_15_to_10_15_20_2011_2026`
+- `stock_count_5_to_3_2011_2026`
+- `stock_count_5_to_7_2011_2026`
+- `stock_count_5_to_10_2011_2026`
+- `max_position_per_stock_0_20_to_0_15_2011_2026`
+- `max_position_per_stock_0_20_to_0_25_2011_2026`
+- `slippage_0_002_to_0_003_2011_2026`
+- `slippage_0_002_to_0_005_2011_2026`
+- `slippage_0_002_to_0_01_2011_2026`
+- `commission_0_0003_to_0_00045_2011_2026`
+- `universe_hs300_to_zz500_2011_2026`
 
-At the current stage, the repository shows results and research outputs, but it does not yet meet a strict external reproducibility standard.
+This is already enough to support a serious discussion of whether the strategy is:
 
-### 6.2 Robustness and Overfitting Defense Can Be Strengthened
+- overly sensitive to benchmark regime definitions
+- overly dependent on specific rebalance timing
+- too concentrated
+- too fragile under more realistic transaction costs
+- too dependent on a single stock universe
 
-Although the project already includes multi-period backtests and attribution outputs, the following areas can still be improved:
+## Why the Stability Layer Matters
 
-- more explicit in-sample and out-of-sample separation
-- walk-forward validation
-- parameter sensitivity analysis
-- ablation tests after removing or replacing factors
-- stability checks under different universes and benchmarks
-- deeper turnover, transaction-cost, capacity, and implementation analysis
+This strategy reports attractive performance characteristics. When a strategy looks strong, the main research question shifts from:
 
-### 6.3 Presentation and Encoding Details Need Further Cleanup
+`Can it backtest well?`
 
-Some raw CSV files contain encoding issues in Chinese security names, and chart naming conventions are not yet fully standardized. These issues do not change the logic of the strategy itself, but they do affect the professional presentation quality of the repository.
+to:
 
-## 7. What This Project Demonstrates
+`Does it remain economically coherent when assumptions are perturbed?`
 
-This repository is well suited to demonstrate the following capabilities:
+The `Stability` folder is therefore not a cosmetic appendix. It is a core part of the evidence base for the project.
 
-- independent development of a multi-factor A-share equity strategy
-- integration of technical and fundamental signals
-- position control, risk management, and rebalancing logic
-- structured handling of backtest outputs and analytical data
-- basic attribution and risk review capability
-- awareness of engineering structure through modular refactoring
+## Why This Is More Than Curve Fitting
 
-## 8. Suggested Reading Order
+This project does not claim immunity from overfitting. The more defensible claim is that the current evidence base is stronger than a single tuned backtest.
 
-### 8.1 Code Review Path
+Evidence that pushes the project beyond naive curve fitting includes:
 
-If the goal is to understand the strategy logic quickly, a practical reading order is:
+- the primary universe is time-varying through `get_index_stocks(...)` rather than a hindsight-fixed stock list
+- performance is archived across long-term, bull, bear, sideways, and recent windows instead of one favorable regime only
+- the repository preserves raw holdings, trade execution details, and attribution outputs, making the return path auditable
+- the `Stability` directory perturbs cost, rebalance cadence, stock count, maximum position, and universe assumptions
+- the strategy combines technical, fundamental, and overlay layers, which can be challenged separately instead of hidden inside one opaque score
 
-1. `Code/Complete_code.py`
-2. `Code/modular_alpha/`
-3. `Factor_Analysis/`
-4. `Backtest-Raw-Results/Performance_Summary.csv`
-5. `Attribution analysis/README.md`
+The honest caveat is that some additional audit work would still strengthen the anti-overfitting case:
 
-### 8.2 Result Review Path
+- rerunning with stricter anti-lookahead settings should be summarized explicitly
+- overlay and ablation studies can still be made more formal
+- JoinQuant data and platform assumptions remain part of the research environment
 
-If the goal is to understand the performance profile quickly, a practical reading order is:
+## Current Strengths
 
-1. `Result_Images/`
-2. `Backtest-Raw-Results/Performance_Summary.csv`
-3. `Attribution analysis/`
+The project currently demonstrates:
 
-## 9. Recommended Next Improvements
+- integration of technical and fundamental alpha blocks
+- awareness of portfolio construction under changing market states
+- explicit defensive logic at both position and portfolio level
+- preserved raw results and trade records
+- meaningful attribution coverage
+- a growing archive of systematic robustness tests
 
-To improve the repository further as a research-grade project, the following additions would be valuable:
+## Current Limitations
 
-- a complete English-first project presentation with consistent naming
-- environment and dependency documentation
-- explicit data-interface and data-field documentation
-- a documented reproducibility workflow
-- stronger notebook-level writeups for factor research
-- parameter sensitivity analysis, ablation tests, and out-of-sample stability checks
-- consistent naming and cleanup of intermediate cache artifacts such as `__pycache__/`
+Several limitations still remain:
 
-## 10. Conclusion
+- the project is still tied to JoinQuant APIs and environment assumptions
+- some experiments are archived as raw folders rather than with comparison summary tables
+- the overlay layer is economically intuitive but could still be further validated through more explicit ablation work
+- formal out-of-sample protocol writeups could be stronger
 
-Overall, this repository is no longer just a collection of strategy scripts. It is a multi-component A-share alpha research project with code, factor analysis, backtest exports, attribution outputs, and result presentation.
+## Recommended Reading Order
 
-Its strongest value lies in showing strategy research ability, data analysis ability, and basic engineering organization. The most important next step is not simply adding another return chart, but strengthening reproducibility, research narration, and robustness evidence.
+If you want to review the project efficiently:
+
+1. `README.md`
+2. `REPRODUCIBILITY.md`
+3. `Code/Complete_code.py`
+4. `Code/modular_alpha/`
+5. `Backtest-Raw-Results/Performance_Summary.csv`
+6. `Attribution analysis/`
+7. `Stability/`
+
+## Conclusion
+
+This project is best understood as a complete A-share cross-factor research system, not just a backtest script.
+
+Its strongest value lies in combining:
+
+- multi-block signal design
+- explicit portfolio-control logic
+- reproducible backtest artifacts
+- attribution evidence
+- and now a more formalized stability-testing archive
+
+That combination makes the project substantially more credible than a single impressive performance chart.
