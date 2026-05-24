@@ -1,0 +1,11 @@
+{
+  "total_return": 0.084092367926075,
+  "annual_return": 0.21383341484842533,
+  "annual_volatility": 0.3860320295999451,
+  "sharpe": 0.5539266134730488,
+  "max_drawdown": -0.2106535039713764,
+  "calmar": 1.0150954568383588,
+  "win_rate": 0.44761904761904764,
+  "trading_days": 105,
+  "benchmark_total_return": -0.0759846663214222
+}
