@@ -1,0 +1,7 @@
+period_id,label,start,end,days
+bull_01,bull,2025-04-23,2025-10-16,122
+bull_02,bull,2020-11-05,2021-03-23,95
+bear_01,bear,2018-06-28,2018-11-27,105
+bear_02,bear,2022-07-11,2022-11-29,100
+sideways_01,sideways,2019-10-16,2019-12-03,35
+sideways_02,sideways,2025-11-18,2026-01-05,32
