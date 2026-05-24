@@ -1,0 +1,10 @@
+{
+  "stock_data_dir": "../HK Data/HK",
+  "index_data_dir": "../HK Data/hs_index_data",
+  "output_root": "../outputs",
+  "default_benchmark": {
+    "type": "index_csv",
+    "path": "../HK Data/hs_index_data/Hang_Seng_Index_HSI.csv",
+    "price_field": "close"
+  }
+}

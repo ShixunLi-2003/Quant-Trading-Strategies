@@ -1,0 +1,44 @@
+{
+  "project_config": "../project.json",
+  "name": "backtrader_ma_cross_demo",
+  "engine": "backtrader",
+  "symbol": "00700",
+  "date_range": {
+    "start": "2018-01-01",
+    "end": "2026-04-02"
+  },
+  "benchmark": {
+    "use_default": true
+  },
+  "strategy": {
+    "name": "ma_cross",
+    "params": {
+      "fast": 20,
+      "slow": 60,
+      "size_pct": 0.95,
+      "enable_benchmark_filter": false,
+      "benchmark_window": 120,
+      "adv_window": 20
+    }
+  },
+  "backtest": {
+    "initial_cash": 1000000
+  },
+  "execution": {
+    "signal_delay_days": 1,
+    "trade_price": "open",
+    "board_lot_default": 500,
+    "board_lots": {
+      "00700": 100
+    },
+    "min_daily_amount_hkd": 2000000,
+    "max_participation_volume_ratio": 0.05,
+    "max_participation_amount_ratio": 0.05,
+    "base_slippage_bps": 15,
+    "impact_slippage_bps_at_max_participation": 35
+  },
+  "output": {
+    "subdir": "backtrader_ma_cross_demo",
+    "plot": true
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "project_config": "../project.json",
+  "name": "hk_w42_bear_defense_recommended",
+  "engine": "vectorbt",
+  "universe": {
+    "mode": "scan_all"
+  },
+  "date_range": {
+    "start": "2018-01-01",
+    "end": "2026-05-09"
+  },
+  "fields": ["open", "high", "close", "volume", "amount"],
+  "factor_list": [
+    {
+      "name": "W-42",
+      "ascending": false,
+      "params": null,
+      "weight": 20
+    },
+    {
+      "name": "returns_momentum",
+      "ascending": false,
+      "params": {
+        "window": 21
+      },
+      "weight": 0.6
+    },
+    {
+      "name": "price_vs_ma",
+      "ascending": false,
+      "params": {
+        "window": 20
+      },
+      "weight": 0.6
+    },
+    {
+      "name": "trend_compression_score",
+      "ascending": false,
+      "params": {
+        "positive_window": 9,
+        "short_window": 1,
+        "min_short_return": -0.02,
+        "max_short_return": 0.01
+      },
+      "weight": 0.1
+    },
+    {
+      "name": "avg_amount_level",
+      "ascending": false,
+      "params": {
+        "window": 3,
+        "log_transform": true
+      },
+      "weight": 0.35
+    },
+    {
+      "name": "bbi_upturn_score",
+      "ascending": false,
+      "params": {
+        "windows": [5, 10, 12, 21],
+        "slope_window": 1,
+        "normalize_by_close": true
+      },
+      "weight": 0.16
+    },
+    {
+      "name": "obv_bottom_rising_score",
+      "ascending": false,
+      "params": {
+        "lookback": 12,
+        "slope_window": 4,
+        "smooth_window": 2
+      },
+      "weight": 0.04
+    }
+  ],
+  "universe_filter": {
+    "min_close": 0.8,
+    "min_amount": 0.0
+  },
+  "signal": {
+    "name": "top_n_hold",
+    "params": {
+      "top_n": 5,
+      "rebalance_every_n_days": 15,
+      "ascending": true
+    }
+  },
+  "regime_risk_control": {
+    "enabled": true,
+    "benchmark_ma_window": 120,
+    "bull_top_n": 5,
+    "bear_top_n": 5,
+    "bull_exposure": 1.0,
+    "bear_exposure": 0.9,
+    "bull_min_amount": 2000000,
+    "bear_min_amount": 3000000
+  },
+  "stock_timing": {
+    "bbi_filter": {
+      "enabled": false
+    }
+  },
+  "benchmark": {
+    "use_default": true
+  },
+  "backtest": {
+    "initial_cash": 1000000,
+    "cash_sharing": true
+  },
+  "execution": {
+    "signal_delay_days": 1,
+    "trade_price": "open",
+    "board_lot_default": 500,
+    "board_lots": {
+      "00005": 400,
+      "00700": 100,
+      "00941": 500,
+      "00388": 100,
+      "02318": 500
+    },
+    "min_daily_amount_hkd": 2000000,
+    "max_participation_volume_ratio": 0.05,
+    "max_participation_amount_ratio": 0.05,
+    "base_slippage_bps": 15,
+    "impact_slippage_bps_at_max_participation": 35,
+    "fees": {
+      "broker_commission_rate": 0.0008,
+      "broker_min_commission_hkd": 30.0,
+      "platform_fee_hkd": 15.0,
+      "stamp_duty_rate": 0.001,
+      "transaction_levy_rate": 0.000027,
+      "trading_fee_rate": 0.0000565,
+      "settlement_fee_rate": 0.000042,
+      "afrc_levy_rate": 0.0000015
+    }
+  },
+  "output": {
+    "subdir": "hk_w42_bear_defense_recommended",
+    "plot": true
+  }
+}

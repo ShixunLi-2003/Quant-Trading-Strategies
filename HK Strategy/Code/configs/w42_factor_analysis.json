@@ -1,0 +1,24 @@
+{
+  "project_config": "../project.json",
+  "name": "w42_factor_analysis",
+  "universe": {
+    "mode": "scan_all"
+  },
+  "date_range": {
+    "start": "2018-01-01",
+    "end": "2026-04-02"
+  },
+  "fields": ["close", "amount", "volume"],
+  "factor": {
+    "name": "W-42",
+    "params": null
+  },
+  "analysis": {
+    "forward_periods": [1, 5, 20],
+    "quantiles": 5
+  },
+  "output": {
+    "subdir": "analysis/w42_factor_analysis",
+    "plot": true
+  }
+}
