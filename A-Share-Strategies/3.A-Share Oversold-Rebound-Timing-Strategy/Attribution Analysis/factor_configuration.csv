@@ -1,0 +1,7 @@
+﻿factor_id,factor_name,factor_column,parameter,sort_order,normalized_weight
+F01,Volume Contraction Factor,volume_contraction_factor_15_80,"(15, 80)",Ascending,0.0316856780735107
+F02,Turnover Rate,turnover_rate_15,15,Descending,0.044359949302915
+F03,Long-Term Low Volume,long_term_low_volume_30,30,Ascending,0.0316856780735107
+F04,Oversold,oversold_39,39,Ascending,0.7604562737642586
+F05,Oversold,oversold_270,270,Ascending,0.1267427122940431
+F06,Net Capital Inflow,net_capital_inflow_6,"(6,)",Ascending,0.0050697084917617

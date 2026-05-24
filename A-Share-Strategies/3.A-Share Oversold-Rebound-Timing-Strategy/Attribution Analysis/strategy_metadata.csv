@@ -1,0 +1,10 @@
+﻿metric,value
+Strategy Name,Oversold Rebound Timing Strategy
+Holding Period,5D
+Selection Count,10
+Configured Start Date,2010-01-01
+Configured End Date,Latest Available Data
+Latest Trade Date,2026-03-25 00:00:00
+Average Eligible Universe Size,838.1948228882834
+Average Selected Count,10.00408719346049
+Average Filter Pass Rate,0.3609485962804331
