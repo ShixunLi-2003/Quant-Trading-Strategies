@@ -1,0 +1,23 @@
+{
+  "data_root": "data",
+  "research_start": "2025-06-01",
+  "forward_horizon_days": 3,
+  "quantiles": 5,
+  "top_n": 3,
+  "rebalance_step_days": 3,
+  "initial_capital": 30000.0,
+  "lot_size": 100,
+  "minimum_commission": 5.0,
+  "commission_bps": 5.0,
+  "stamp_duty_bps": 10.0,
+  "buy_slippage_bps": 30.0,
+  "sell_slippage_bps": 30.0,
+  "scheduled_exit_time": "14:53",
+  "low_volatility_weight": 0.6,
+  "sector_trend_minimum_slope": -0.02,
+  "etf_scope": "diversified_core",
+  "etf_breadth_threshold": 0.5,
+  "etf_confirmation_days": 2,
+  "etf_exposure_scheme": "half2_cash3"
+}
+

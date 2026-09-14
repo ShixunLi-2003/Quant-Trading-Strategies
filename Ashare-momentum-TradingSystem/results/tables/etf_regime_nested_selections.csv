@@ -1,0 +1,7 @@
+﻿fold,candidate,market_scope,breadth,confirm_days,scheme,score,median_train_return
+1,domestic_core_b0.40_c1_half3_only,domestic_core,0.4,1,half3_only,0.039695478587504024,0.06341158535000102
+2,domestic_core_b0.40_c1_half3_only,domestic_core,0.4,1,half3_only,-0.04554848036199001,0.001815607533333985
+3,domestic_core_b0.40_c1_half2_cash3,domestic_core,0.4,1,half2_cash3,0.11316256910356084,0.14684241706666756
+4,domestic_core_b0.40_c1_half2_cash3,domestic_core,0.4,1,half2_cash3,0.2149126184555011,0.25395425385000103
+5,diversified_core_b0.50_c2_half2_cash3,diversified_core,0.5,2,half2_cash3,0.16009779881982744,0.18287032411666715
+6,diversified_core_b0.50_c2_half2_cash3,diversified_core,0.5,2,half2_cash3,0.09793514714124256,0.12502484370000055
