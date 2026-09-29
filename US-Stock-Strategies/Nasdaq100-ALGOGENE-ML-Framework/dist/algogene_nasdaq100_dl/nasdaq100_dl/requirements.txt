@@ -1,0 +1,10 @@
+numpy
+pandas
+scikit-learn
+joblib
+
+# Optional; install/select only when ALGOGENE platform_probe confirms support:
+# torch
+# xgboost
+# lightgbm
+# catboost
