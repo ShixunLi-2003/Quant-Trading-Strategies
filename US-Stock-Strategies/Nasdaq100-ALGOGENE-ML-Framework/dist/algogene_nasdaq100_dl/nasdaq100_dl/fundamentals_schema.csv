@@ -1,2 +1,0 @@
-symbol,filed_at,report_date,filing_id,form_type,currency,revenue_ttm,net_income_ttm,eps_ttm,total_assets,total_liabilities,total_equity,operating_cash_flow_ttm,capital_expenditure_ttm,shares_outstanding
-AAPL,2025-11-01T20:00:00Z,2025-09-27,AAPL-2025-10K,10-K,USD,420000000000,105000000000,7.00,365000000000,295000000000,70000000000,125000000000,27000000000,15000000000
